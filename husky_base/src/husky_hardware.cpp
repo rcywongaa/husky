@@ -166,7 +166,7 @@ namespace husky_base
   }
 
 
-CallbackReturn HuskyHardware::on_init(const hardware_interface::HardwareInfo & info)
+hardware_interface::CallbackReturn HuskyHardware::on_init(const hardware_interface::HardwareInfo & info)
 {
   if (hardware_interface::SystemInterface::on_init(info) != CallbackReturn::SUCCESS)
   {
@@ -274,7 +274,7 @@ std::vector<hardware_interface::CommandInterface> HuskyHardware::export_command_
   return command_interfaces;
 }
 
-CallbackReturn HuskyHardware::on_activate(const rclcpp_lifecycle::State & /*previous_state*/)
+hardware_interface::CallbackReturn HuskyHardware::on_activate(const rclcpp_lifecycle::State & /*previous_state*/)
 {
   // set some default values
   for (auto i = 0u; i < hw_states_position_.size(); i++)
@@ -293,14 +293,14 @@ CallbackReturn HuskyHardware::on_activate(const rclcpp_lifecycle::State & /*prev
   return CallbackReturn::SUCCESS;
 }
 
-CallbackReturn HuskyHardware::on_deactivate(const rclcpp_lifecycle::State & /*previous_state*/)
+hardware_interface::CallbackReturn HuskyHardware::on_deactivate(const rclcpp_lifecycle::State & /*previous_state*/)
 {
   RCLCPP_INFO(rclcpp::get_logger(HW_NAME), "System successfully stopped!");
 
   return CallbackReturn::SUCCESS;
 }
 
-hardware_interface::return_type HuskyHardware::read()
+hardware_interface::return_type HuskyHardware::read(const rclcpp::Time & time, const rclcpp::Duration & period)
 {
   RCLCPP_DEBUG(rclcpp::get_logger(HW_NAME), "Reading from hardware");
 
@@ -311,7 +311,7 @@ hardware_interface::return_type HuskyHardware::read()
   return hardware_interface::return_type::OK;
 }
 
-hardware_interface::return_type HuskyHardware::write()
+hardware_interface::return_type HuskyHardware::write(const rclcpp::Time & time, const rclcpp::Duration & period)
 {
   RCLCPP_DEBUG(rclcpp::get_logger(HW_NAME), "Writing to hardware");
 
